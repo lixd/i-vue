@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    单行文本<input type="text" v-model="message"/>&nbsp;&nbsp; Input 内容: {{message}}
+    <hr/>
+
+    多行文本 <textarea v-model="textareaMessage"></textarea>&nbsp;&nbsp; Textarea 内容: {{textareaMessage}}
+    <hr/>
+
+    单复选框 <input type="checkbox" id="oneCheckbox" v-model="oneCheck"/><label for="oneCheckbox">{{oneCheck}}</label>
+    <hr/>
+
+    <input type="checkbox" id="Java" value="Java" v-model="checkNames"/><label for="Java">Java</label>
+    <input type="checkbox" id="JavaScript" value="JavaScript" v-model="checkNames"/><label
+        for="JavaScript">JavaScript</label>
+    <input type="checkbox" id="HTML" value="HTML" v-model="checkNames"/><label for="HTML">HTML</label>
+    <span>选择的值: {{ checkNames }}</span>
+    <hr/>
+
+    单选按钮
+    <input type="radio" id="one" value="One" v-model="picked"><label for="one"></label>
+    <input type="radio" id="two" value="Two" v-model="picked"><label for="two"></label>
+    <input type="radio" id="three" value="Three" v-model="picked"><label for="three"></label>
+    <span>选中的值: {{ picked }}</span>
+    <hr/>
+
+    下拉框
+    <select v-model="selected">
+        <option disabled value="">请选择</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <span>选中的值:{{ selected }}</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: "hello",
+            textareaMessage: "textarea",
+            oneCheck: true,
+            checkNames: [],
+            picked: '',
+            selected: ''
+        }
+    });
+</script>
+</body>
+</html>
