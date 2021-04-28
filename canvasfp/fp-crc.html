@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas 指纹 Demo</title>
+</head>
+<body>
+<canvas id="myCanvas"></canvas>
+<div id="crc32"></div>
+<div id="time"></div>
+<script src="fp.js"></script>
+<script>
+  const start = new Date().getTime()
+  const canvasFP = GenerateCanvasFP()
+  const end = new Date().getTime()
+  document.getElementById("crc32").innerHTML = "CRC32:   " + canvasFP
+  document.getElementById("time").innerHTML = "耗时:   " +(end - start)+"ms"
+</script>
+</body>
+</html>
