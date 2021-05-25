@@ -198,7 +198,7 @@ function string2Hex(str) {
   let result = ""
   for (let i = 0; i < str.length; i++) {
     let askii = str.charCodeAt(i)
-    if (askii < 0x0f) {
+    if (askii <= 0x0f) {
       // 小于0x0f转为16进制后在前面补零
       result += "0"
     }
