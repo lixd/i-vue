@@ -8,6 +8,14 @@
 <canvas id="myCanvas"></canvas>
 <div id="crc32"></div>
 <div id="time"></div>
+
+<canvas id="myCanvas2"></canvas>
+<div id="crc322"></div>
+<div id="time2"></div>
+
+<canvas id="myCanvas3"></canvas>
+<div id="crc323"></div>
+<div id="time3"></div>
 <script src="fp.js"></script>
 <script>
   const start = new Date().getTime()
@@ -15,6 +23,19 @@
   const end = new Date().getTime()
   document.getElementById("crc32").innerHTML = "CRC32:   " + canvasFP
   document.getElementById("time").innerHTML = "耗时:   " +(end - start)+"ms"
+
+  const start2 = new Date().getTime()
+  const canvasFP2 = GenerateCanvasFP2()
+  const end2 = new Date().getTime()
+  document.getElementById("crc322").innerHTML = "CRC32:   " + canvasFP2
+  document.getElementById("time2").innerHTML = "耗时:   " +(end2 - start2)+"ms"
+
+  const start3 = new Date().getTime()
+  const canvasFP3 = GenerateCanvasFP3()
+  const end3 = new Date().getTime()
+  document.getElementById("crc323").innerHTML = "CRC32:   " + canvasFP3
+  document.getElementById("time3").innerHTML = "耗时:   " +(end3 - start3)+"ms"
+
 </script>
 </body>
 </html>
