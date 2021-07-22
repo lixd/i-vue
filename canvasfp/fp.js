@@ -4,30 +4,47 @@
 * https://paper.seebug.org/229/
 * */
 
-//GenerateCanvasFP 生成 Canvas 指纹
-function GenerateCanvasFP() {
+function GenerateCanvasFPOld() {
+    // 1.绘制获取base64
+    const base64 = getComplexCanvasFingerprintOld()
+    // 2.提取CRC32校验码作为Canvas指纹
+    return extractCRC32FromBase64(base64)
+}
+
+function GenerateCanvasFPNew() {
     // 1.绘制获取base64
     const base64 = getComplexCanvasFingerprint()
     // 2.提取CRC32校验码作为Canvas指纹
     return extractCRC32FromBase64(base64)
 }
 
-function GenerateCanvasFP2() {
-    // 1.绘制获取base64
-    const base64 = getComplexCanvasFingerprint2()
-    // 2.提取CRC32校验码作为Canvas指纹
-    return extractCRC32FromBase64(base64)
-}
-
-function GenerateCanvasFP3() {
-    // 1.绘制获取base64
-    const base64 = getComplexCanvasFingerprint3()
-    // 2.提取CRC32校验码作为Canvas指纹
-    return extractCRC32FromBase64(base64)
+// 来源 https://browserleaks.com/js/canvas.js
+// 测试后该方法生成的指纹比较稳定
+function getComplexCanvasFingerprint() {
+    // Text with lowercase/uppercase/punctuation symbols
+    const c = "BrowserLeaks,com <canvas> 1.0"
+    const canvas = document.getElementById('myCanvas2');
+    // const canvas = document.createElement('canvas');
+    canvas.setAttribute("width", 220)
+    canvas.setAttribute("height", 30)
+    const canvasContext = canvas.getContext('2d')
+    canvasContext.textBaseline = "top"
+    // The most common type
+    canvasContext.font = "14px 'Arial'"
+    canvasContext.textBaseline = "alphabetic"
+    canvasContext.fillStyle = "#f60"
+    canvasContext.fillRect(125, 1, 62, 20)
+    // Some tricks for color mixing to increase the difference in rendering
+    canvasContext.fillStyle = "#069"
+    canvasContext.fillText(c, 2, 15)
+    canvasContext.fillStyle = "rgba(102, 204, 0, 0.7)"
+    canvasContext.fillText(c, 4, 17)
+    return canvas.toDataURL();
 }
 
 //getComplexCanvasFingerprint 绘制复制图片并获取其base64数据
-function getComplexCanvasFingerprint() {
+// 该方法不够稳定,测试发现移动端夸克浏览器清空缓存或刷新可能会生成两个不同的指纹
+function getComplexCanvasFingerprintOld() {
     const asciiString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !\"#$%&\'()*+,-./0123456789:;<=>?@[\\]^_`{|}~";
     // modified script taken from https://browserleaks.com/canvas#how-does-it-work
     // 真正使用时直接创建一个 Canvas即可。
@@ -202,60 +219,16 @@ function getComplexCanvasFingerprint() {
     return canvas.toDataURL();
 }
 
-function getComplexCanvasFingerprint2() {
-    const t0 = performance.now();
-    const canvas = document.getElementById('myCanvas2');
-    // const canvas = document.createElement('canvas');
-    canvas.height = 60;
-    canvas.width = 400;
-    const canvasContext = canvas.getContext('2d');
-    canvas.style.display = 'inline';
-    canvasContext.textBaseline = 'alphabetic';
-    canvasContext.fillStyle = '#f60';
-    canvasContext.fillRect(125, 1, 62, 20);
-    canvasContext.fillStyle = '#069';
-    canvasContext.font = '11pt no-real-font-123';
-    canvasContext.fillText("Cwm fjordbank glyphs vext quiz, \uD83D\uDE03", 2, 15);
-    canvasContext.fillStyle = 'rgba(102, 204, 0, 0.7)';
-    canvasContext.font = '18pt Arial';
-    canvasContext.fillText("Cwm fjordbank glyphs vext quiz, \uD83D\uDE03", 4, 45);
-    const t1 = performance.now();
-    console.log("execution time for canvas = ".concat(t1 - t0, " ms"));
-    return canvas.toDataURL();
-}
-
-function getComplexCanvasFingerprint3() {
-    const c = "BrowserLeaks,com <canvas> 1.0"
-    const t0 = performance.now();
-    const canvas = document.getElementById('myCanvas3');
-    // const canvas = document.createElement('canvas');
-    canvas.setAttribute("width", 220)
-    canvas.setAttribute("height", 30)
-    const canvasContext = canvas.getContext('2d')
-    canvasContext.textBaseline = "top",
-    canvasContext.font = "14px 'Arial'",
-    canvasContext.textBaseline = "alphabetic",
-    canvasContext.fillStyle = "#f60",
-    canvasContext.fillRect(125, 1, 62, 20),
-    canvasContext.fillStyle = "#069",
-    canvasContext.fillText(c, 2, 15),
-    canvasContext.fillStyle = "rgba(102, 204, 0, 0.7)",
-    canvasContext.fillText(c, 4, 17)
-    const t1 = performance.now();
-    console.log("execution time for canvas = ".concat(t1 - t0, " ms"));
-    return canvas.toDataURL();
-}
-
 
 //spiltCRC32FromBase64 从  base64 中提取CRC32校验码
 function extractCRC32FromBase64(base64) {
-  // 移除 base64 header
-  base64 = base64.replace('data:image/png;base64,', '')
-  const bin = atob(base64)
-  // 倒数16到12位是PNG数据中的CRC32校验码
-  const crc32ASKii = bin.slice(-16, -12)
-  // 转换为16进制
-  return string2Hex(crc32ASKii.toString())
+    // 移除 base64 header
+    base64 = base64.replace('data:image/png;base64,', '')
+    const bin = atob(base64)
+    // 倒数16到12位是PNG数据中的CRC32校验码
+    const crc32ASKii = bin.slice(-16, -12)
+    // 转换为16进制
+    return string2Hex(crc32ASKii.toString())
 }
 
 // string2Hex 字符串转16进制
