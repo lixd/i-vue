@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="sha256.js"></script>
+<!--<script src="https://cdn.bootcdn.net/ajax/libs/js-sha256/0.9.0/sha256.js"></script>-->
+<script>
+    // test();
+    pow(4);
+
+    function pow(level) {
+        const compatible = "0123456789abcdef" // 用于降低难度 16进制,包含越多时难度越低
+        var i = 0
+        var count = 0
+        console.time("1")
+        while (true) {
+            let str = "13424so7khmbd6d1" + "12580802931" + i.toString()
+            const hash = SHA256(str);
+            if (isOk(hash, compatible, level)) {
+                console.log(str, i.toString(), hash)
+                count++
+                if (count > 10) {
+                    break
+                }
+            }
+            i++
+        }
+        console.timeEnd("1")
+    }
+
+    function isOk(hash, compatible, level) {
+        if (hash.length < level + 1) { // check str len
+            return false
+        }
+        // let prefix = hash.substr(hash, level + 1)
+        let prefix = hash.substr(hash, level)
+        for (const compatibleKey in compatible) { // compatible
+            // if (prefix === "0".repeat(level) + compatibleKey) {
+            //     return true
+            // }
+            if (prefix === "0".repeat(level)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    function test() {
+        console.time("test")
+        // 测试 hash 时间
+        // js 一次 6200ns
+        // go 一次 358ns
+        // 相差17倍
+        for (let i = 0; i < 100000; i++) {
+            var hash = SHA256("vid4729934")
+        }
+        console.timeEnd("test")
+    }
+</script>
+</body>
+</html>
