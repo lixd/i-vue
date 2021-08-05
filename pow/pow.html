@@ -31,22 +31,7 @@
         console.timeEnd("1")
     }
 
-    function isOk(hash, compatible, level) {
-        if (hash.length < level + 1) { // check str len
-            return false
-        }
-        // let prefix = hash.substr(hash, level + 1)
-        let prefix = hash.substr(hash, level)
-        for (const compatibleKey in compatible) { // compatible
-            // if (prefix === "0".repeat(level) + compatibleKey) {
-            //     return true
-            // }
-            if (prefix === "0".repeat(level)) {
-                return true
-            }
-        }
-        return false
-    }
+
 
     function test() {
         console.time("test")

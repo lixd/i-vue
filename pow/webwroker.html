@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--http://www.ruanyifeng.com/blog/2018/07/web-worker.html-->
+<button id="btn_start" onclick="start()"> Start </button>
+<script>
+    var worker = new Worker('work.js');
+    worker.onmessage = function (event) {
+        console.log('Received message ' + event.data);
+    }
+    function start(){
+        worker.postMessage("start")
+    }
+</script>
+</body>
+</html>
